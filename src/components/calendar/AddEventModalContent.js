@@ -11,12 +11,19 @@ import {
   List,
   ListItem,
   ListItemText,
+  IconButton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import CheckIcon from "@mui/icons-material/Check";
 import { FilePicker } from "evergreen-ui";
+
+import DateInput from "./DateInput";
+import TimeInput from "./TimeInput";
 
 const AddEventModalContent = () => {
   const [user_list, setUserList] = useState([]);
+  const [filter_text, setFilter] = useState("");
+  const [user, setUser] = useState("");
 
   useEffect(() => {
     const new_user_list = [
@@ -36,6 +43,10 @@ const AddEventModalContent = () => {
     setUserList(new_user_list);
   }, []);
 
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
   return (
     <div>
       <DialogContent>
@@ -48,24 +59,33 @@ const AddEventModalContent = () => {
               sx={{ width: "100%" }}
             />
             <Stack direction="row" spacing={2}>
-              <TextField id="standard-basic" label="Date" variant="standard" />
-              <TextField id="standard-basic" label="From" variant="standard" />
-              <TextField id="standard-basic" label="To" variant="standard" />
+              <FormControl variant="standard">
+                <InputLabel htmlFor="date">Date</InputLabel>
+                <DateInput id="date" />
+              </FormControl>
+
+              <FormControl variant="standard">
+                <InputLabel htmlFor="start-time">Start</InputLabel>
+                <TimeInput id="start-time" />
+              </FormControl>
+              <FormControl variant="standard">
+                <InputLabel htmlFor="end-time">End</InputLabel>
+                <TimeInput id="end-time" />
+              </FormControl>
             </Stack>
             <TextField
               id="standard-basic"
               label="User"
               variant="standard"
-              sx={{ width: "100%" }}
+              value={user}
             />
-            <br />
-
             <FormControl variant="standard" sx={{ width: "100%" }}>
               <InputLabel htmlFor="standard-adornment-password">
                 Search User
               </InputLabel>
               <Input
                 id="standard-adornment-password"
+                onChange={handleFilterChange}
                 endAdornment={
                   <InputAdornment position="end">
                     <SearchIcon />
@@ -79,18 +99,24 @@ const AddEventModalContent = () => {
                 bgcolor: "background.paper",
                 position: "relative",
                 overflow: "auto",
-                maxHeight: 150,
+                height: 150,
                 "& ul": { padding: 0 },
               }}
               subheader={<li />}
             >
               <li>
                 <ul>
-                  {user_list.map((user) => (
-                    <ListItem key={user}>
-                      <ListItemText primary={user} />
-                    </ListItem>
-                  ))}
+                  {user_list.map(
+                    (user) =>
+                      user.includes(filter_text) && (
+                        <ListItem key={user}>
+                          <ListItemText primary={user} />
+                          <IconButton onClick={() => setUser(user)}>
+                            <CheckIcon />
+                          </IconButton>
+                        </ListItem>
+                      )
+                  )}
                 </ul>
               </li>
             </List>

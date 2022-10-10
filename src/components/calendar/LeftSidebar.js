@@ -5,10 +5,12 @@ import {
   Slide,
   DialogActions,
   DialogTitle,
+  Stack,
 } from "@mui/material";
-import Calendar from "./Calendar";
 
 import AddEventModalContent from "./AddEventModalContent";
+import Calendar from "./Calendar";
+import MyBigCalendar from "./MyBigCalendar";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -27,10 +29,25 @@ const LeftSidebar = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      <Button variant="contained" onClick={handleClickOpen}>
-        Create Event
-      </Button>
-      <Calendar />
+      <Stack direction="row">
+        <Stack>
+          <Button
+            variant="contained"
+            onClick={handleClickOpen}
+            sx={{
+              width: 200,
+              height: 35,
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginBottom: 2,
+            }}
+          >
+            Create Event
+          </Button>
+          <Calendar />
+        </Stack>
+        <MyBigCalendar />
+      </Stack>
       <Dialog
         open={open}
         TransitionComponent={Transition}

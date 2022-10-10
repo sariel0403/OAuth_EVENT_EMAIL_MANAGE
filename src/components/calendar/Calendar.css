@@ -3,8 +3,7 @@
   grid-column-end: 3;
   width: 320px;
   background-color: #fff;
-  margin: 20px 0px 10px 20px;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .react-calendar {
